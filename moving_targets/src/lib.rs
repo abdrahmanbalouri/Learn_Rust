@@ -17,35 +17,30 @@ struct Node {
 
 impl Field {
     pub fn new() -> Self {
-        Self{
-            head : None,
-        }
+        Self { head: None }
     }
 
     pub fn push(&mut self, target: Target) {
-        let node = Box::new(Node{
-
-            elem : target,
-            next : self.head.take(),
+        let k = Box::new(Node {
+            elem: target,
+            next: self.head.take(),
         });
 
-        self.head =Some(node);
+        self.head = Some(k);
     }
 
     pub fn pop(&mut self) -> Option<Target> {
-      self.head.take().map(|node| {
-
-        
-        self.head = node.next;
-        node.elem 
-      })
+        self.head.take().map(|v| {
+            self.head = v.next;
+            v.elem
+        })
     }
 
     pub fn peek(&self) -> Option<&Target> {
-        self.head.as_deref().map(|node|  &node.elem)
+        self.head.as_ref().map(|c| &c.elem)
     }
 
     pub fn peek_mut(&mut self) -> Option<&mut Target> {
-        self.head.as_deref_mut().map(|node|  & mut node.elem)
+        self.head.as_mut().map(|c| &mut c.elem)
     }
 }
