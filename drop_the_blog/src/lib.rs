@@ -29,7 +29,11 @@ impl Blog {
     }
 
     pub fn add_drop(&self, id: usize) {
-        self.states.borrow_mut()[id];
+        let mut states = self.states.borrow_mut();
+        if states[id] {
+            panic!();
+        }
+        states[id] = true;
         self.drops.set(self.drops.get() + 1);
     }
 }
@@ -50,13 +54,13 @@ impl<'a> Article<'a> {
         }
     }
 
-    pub fn discard( & self) {
-        drop(& mut self)
+    pub fn discard(&self) {
+        drop(&self)
     }
 }
 
 impl Drop for Article<'_> {
-    fn drop(& mut  self) {
+    fn drop(&mut self) {
         self.parent.add_drop(self.id)
     }
 }
